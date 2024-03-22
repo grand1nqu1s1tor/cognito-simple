@@ -1,0 +1,31 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/philogramdb?useSSL=false
+    username: root
+    password: admin@1234
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+    hibernate:
+      ddl-auto: update
+  security:
+    oauth2:
+      client:
+        registration:
+          cognito:
+            client-id: 45fk1srnr1a01h6imtjm4t2irp
+            client-secret: 1vf9oceqksbdi5luui4oidaqc8chvnrs0aorf2evgg8mkfd9i97j
+            redirect-uri: http://localhost:8080/login/oauth2/code/cognito
+        provider:
+          cognito:
+            issuer-uri: https://cognito-idp.us-east-2.amazonaws.com/us-east-2_ZmiKNMi6m
+
+
+server:
+  servlet:
+    context-path: /
+
+logging:
+  level:
+    org.springframework.security: DEBUG
