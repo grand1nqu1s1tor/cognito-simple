@@ -18,13 +18,8 @@ public class OAuth2LoginSecurityConfig {
                         .anyRequest().authenticated()
                 )
                 .oauth2Login(oauth2Login -> oauth2Login
-                        .defaultSuccessUrl("/loginSuccess", true) // Use a controller mapping that serves index.html
+                        .defaultSuccessUrl("/success", true) // Use a controller mapping that serves index.html
                 );
         return http.build();
     }
 }
-
-
-/*
-                .oauth2Login(withDefaults());
-*/
