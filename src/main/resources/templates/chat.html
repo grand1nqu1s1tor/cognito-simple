@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Interface - Queriosity</title>
+    <link rel="stylesheet" href="/css/chat.css">
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+</head>
+<body>
+<div class="chat-container">
+    <aside class="sidebar">
+        <h2>Chat History</h2>
+        <div id="chat-history">
+        </div>
+    </aside>
+    <section class="chat-main">
+        <header class="chat-header">
+            <h1>Queriosity</h1>
+        </header>
+        <div class="chat-area" id="chat-area">
+            <!-- Server messages will be appended here -->
+            <div class="message">Server: Welcome to Queriosity chat!</div>
+            <!-- User messages will be appended here -->
+        </div>
+        <div class="chat-input">
+            <input type="text" id="message-input" placeholder="Type your message here..." />
+            <button onclick="sendMessage()">Send</button>
+        </div>
+        <footer class="chat-footer">
+            <p>Made by Aditya, Makesh, Naman and Dipesh with ❤️</p>
+        </footer>
+    </section>
+</div>
+
+<script>
+    function sendMessage() {
+        const messageInput = document.getElementById('message-input');
+        const message = messageInput.value.trim();
+
+        if (message) {
+            // Dummy AJAX call to the server
+            fetch('/send-message', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    // Add your CSRF tokens here if necessary
+                },
+                body: JSON.stringify({ message: message })
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Simulating a server response
+                const serverMessage = `Server: ${data.response}`;
+                appendMessage(serverMessage, 'server-message');
+            })
+            .catch(error => console.error('Error sending message:', error));
+
+            // Add the user's message to the chat area
+            appendMessage(`You: ${message}`, 'user-message');
+
+            // Clear the input field
+            messageInput.value = '';
+        }
+    }
+
+   function appendMessage(text, className) {
+    const messageDiv = document.createElement('div');
+    messageDiv.classList.add('message', className);
+    messageDiv.textContent = text;
+    const chatArea = document.getElementById('chat-area');
+    chatArea.appendChild(messageDiv);
+    chatArea.scrollTop = chatArea.scrollHeight;
+}
+
+</script>
+</body>
+</html>

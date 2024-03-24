@@ -1,10 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Queriosity</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="/css/styles.css">
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
 </head>
 <body>
 <div class="container">
@@ -14,16 +16,70 @@
     <main>
         <div class="dropdown">
             <label for="options">Pick an option</label>
-            <select id="options">
-                <option value="option1">Option 1</option>
-                <option value="option2">Option 2</option>
-                <!-- Add more options as needed -->
+            <select id="options" onchange="handleOptionChange()">
+                <option value="option1">Upload a File</option>
+                <option value="option2">Use Video Link</option>
             </select>
+        </div>
+        <div id="file-upload-section" style="display:none;">
+            <input type="file" id="file-upload" name="fileUpload" accept="*"/>
+            <button onclick="uploadFile()">Upload</button>
+        </div>
+        <div id="video-link-section" style="display:none;">
+            <input type="text" id="video-link" placeholder="Enter video link here"/>
+            <button onclick="useVideoLink()">Submit</button>
         </div>
     </main>
     <footer>
         <p>Made by Aditya, Makesh, Naman and Dipesh with ❤️</p>
     </footer>
 </div>
+
+<script>
+    function handleOptionChange() {
+        var option = document.getElementById('options').value;
+        // Toggle visibility based on the option chosen
+        document.getElementById('file-upload-section').style.display = option === 'option1' ? 'block' : 'none';
+        document.getElementById('video-link-section').style.display = option === 'option2' ? 'block' : 'none';
+    }
+
+    function uploadFile() {
+        // Implement file upload logic
+        var fileInput = document.getElementById('file-upload');
+        var file = fileInput.files[0];
+        // Create a FormData object and add the file to it
+        var formData = new FormData();
+        formData.append('file', file);
+
+        const csrfToken = document.querySelector('meta[name="_csrf"]').getAttribute('content');
+        const csrfHeaderName = document.querySelector('meta[name="_csrf_header"]').getAttribute('content');
+
+
+        // Send a POST request to the server-side endpoint
+        fetch('/upload', {
+            method: 'POST',
+            body: formData,
+            headers: {
+                [csrfHeaderName]: csrfToken
+            }
+        })
+        .then(response => {
+            if (response.ok) {
+                window.location.href = '/chat';
+            } else {
+                alert('Failed to upload file');
+            }
+        })
+        .then(data => alert('File uploaded successfully'))
+        .catch(error => console.error('Error uploading file:', error));
+    }
+
+    function useVideoLink() {
+        // Implement video link logic
+        var videoLink = document.getElementById('video-link').value;
+        // Handle the video link (e.g., send it to the server or process it client-side)
+        console.log('Video link:', videoLink);
+    }
+</script>
 </body>
 </html>
