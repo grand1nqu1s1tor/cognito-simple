@@ -1,4 +1,4 @@
-package net.javaguides.springboot.entity;
+package com.cloud.queriosity.entity;
 
 import jakarta.persistence.*;
 

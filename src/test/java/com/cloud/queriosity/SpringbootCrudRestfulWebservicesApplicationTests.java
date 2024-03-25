@@ -1,4 +1,4 @@
-package net.javaguides.springboot;
+package com.cloud.queriosity;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

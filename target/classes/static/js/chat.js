@@ -1,10 +1,11 @@
+// Corrected chat.js
 function sendMessage() {
     const messageInput = document.getElementById('message-input');
     const message = messageInput.value.trim();
 
     if (message) {
-        const userUuid = window.userUuid; //  userUuid is globally defined in  HTML
-        console.log(userUuid);
+        const userUuid = window.userUuid; // Assuming userUuid is globally defined in your HTML
+        console.log(userUuid); // Correct placement for logging userUuid
 
         fetch('/send-message', {
             method: 'POST',
@@ -17,7 +18,7 @@ function sendMessage() {
         })
         .then(response => {
             if (!response.ok) throw new Error('Network response was not ok.');
-            return response.json(); //
+            return response.json(); // Parse the JSON directly here.
         })
         .then(data => {
             const serverMessage = `Server: ${data.response}`;
@@ -28,7 +29,7 @@ function sendMessage() {
         });
 
         appendMessage(`You: ${message}`, 'user-message');
-        messageInput.value = '';
+        messageInput.value = ''; // Clear the input after sending
     }
 }
 
@@ -38,17 +39,20 @@ function appendMessage(text, className) {
     messageDiv.textContent = text;
     const chatArea = document.getElementById('chat-area');
 
+    // If using `flex-direction: column-reverse;`, use `prepend()` instead of `appendChild()`
     chatArea.prepend(messageDiv);
 
-    chatArea.scrollTop = chatArea.scrollHeight;
+    // Adjust scrolling if necessary
+    chatArea.scrollTop = chatArea.scrollHeight; // May need adjustment based on layout
 }
 
 
+// Attach the event listener for the 'Enter' key press in the message input field
 document.addEventListener('DOMContentLoaded', () => {
     const messageInput = document.getElementById('message-input');
     messageInput.addEventListener('keypress', function(e) {
-        if (e.key === 'Enter' && !e.shiftKey) {
-            e.preventDefault();
+        if (e.key === 'Enter' && !e.shiftKey) { // Prevents sending on Shift+Enter
+            e.preventDefault(); // Prevent form submission or newline in case of textarea
             sendMessage();
         }
     });

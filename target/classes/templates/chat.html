@@ -13,6 +13,7 @@
     <aside class="sidebar">
         <h2>Chat History</h2>
         <div id="chat-history">
+            <!-- Chat history items will be added here dynamically -->
         </div>
     </aside>
     <section class="chat-main">
@@ -20,6 +21,7 @@
             <h1>Queriosity</h1>
         </header>
         <div class="chat-area" id="chat-area">
+            <!-- Loop through chat history and display messages -->
             <div th:each="msg : ${chatHistory}" th:class="${msg.userUuid == userUuid} ? 'message user-message' : 'message server-message'">
                 <span th:text="${msg.content}"></span>
             </div>

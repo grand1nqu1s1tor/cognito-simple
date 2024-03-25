@@ -1,4 +1,4 @@
-package net.javaguides.springboot.config;
+package com.cloud.queriosity.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,11 +14,10 @@ public class OAuth2LoginSecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/index.html","/error", "/webjars/**").permitAll()
+                        .requestMatchers("/index.html", "/error", "/webjars/**", "/signup", "/css/**", "/js/**").permitAll()
                         .anyRequest().authenticated()
                 )
-                .oauth2Login(oauth2Login -> oauth2Login
-                        .defaultSuccessUrl("/success", true) // Use a controller mapping that serves index.html
+                .oauth2Login(oauth2Login -> oauth2Login.defaultSuccessUrl("/success", true) // Use a controller mapping that serves index.html
                 );
         return http.build();
     }

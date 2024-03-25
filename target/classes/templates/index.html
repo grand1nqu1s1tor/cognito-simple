@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Welcome Page</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+<h1>Welcome!</h1>
+<div id="user-greeting">Loading...</div>
+
+<button id="go-to-main" class="btn btn-primary" style="display: none;">Go to Main Page</button>
+
+<script>
+    $(document).ready(function() {
+        $.get("/loginSuccess", function(data) {
+            $("#user-greeting").text(data);
+            // Show the button if login is successful
+            $("#go-to-main").show().click(function() {
+                // Redirect to the index.html page when the button is clicked
+                window.location.href = '/main.html';
+            });
+        }).fail(function() {
+            $("#user-greeting").text("Failed to load user information.");
+        });
+    });
+</script>
+</body>
+</html>

@@ -1,4 +1,4 @@
-package service;
+package com.cloud.queriosity.service;
 
 import com.cloud.queriosity.entity.Message;
 import com.cloud.queriosity.repository.MessageRepository;
@@ -19,14 +19,11 @@ public class MessageService {
     }
 
     public List<Message> findRecentMessagesByUserUuid(String userUuid) {
-        return messageRepository.findTop50ByUserUuidOrderByTimestampDesc(userUuid);
+        return messageRepository.findTop50ByUserUuidOrderByTimestampAsc(userUuid);
     }
 
     public Message saveMessage(String userUuid, String content) {
-        Message message = new Message();
-        message.setUserUuid(userUuid);
-        message.setContent(content);
-        message.setTimestamp(LocalDateTime.now());
+        Message message = new Message(userUuid, content);
         return messageRepository.save(message);
     }
 

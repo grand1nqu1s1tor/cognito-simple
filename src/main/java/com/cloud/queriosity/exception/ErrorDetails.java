@@ -1,4 +1,4 @@
-package net.javaguides.springboot.exception;
+package com.cloud.queriosity.exception;
 
 import java.util.Date;
 
