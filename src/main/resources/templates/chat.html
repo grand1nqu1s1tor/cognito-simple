@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Interface - Queriosity</title>
+    <link rel="stylesheet" href="/css/chat.css">
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+</head>
+<body>
+<div class="chat-container">
+    <aside class="sidebar">
+        <h2>Chat History</h2>
+        <div id="chat-history">
+        </div>
+    </aside>
+    <section class="chat-main">
+        <header class="chat-header">
+            <h1>Queriosity</h1>
+        </header>
+        <div class="chat-area" id="chat-area">
+            <div th:each="msg : ${chatHistory}" th:class="${msg.userUuid == userUuid} ? 'message user-message' : 'message server-message'">
+                <span th:text="${msg.content}"></span>
+            </div>
+        </div>
+
+        <div class="chat-input">
+            <input type="text" id="message-input" placeholder="Type your message here..." />
+            <button id="sendButton">Send</button>
+        </div>
+        <footer class="chat-footer">
+            <p>Made by Aditya, Makesh, Naman and Dipesh with ❤️</p>
+        </footer>
+    </section>
+</div>
+<script type="text/javascript">
+    // This will be replaced with the actual UUID by Thymeleaf on the server-side
+    var userUuid = '[[${userUuid}]]' ;
+</script>
+<script src="/js/chat.js"></script>
+</body>
+</html>
